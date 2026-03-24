@@ -2,174 +2,343 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enoch Obiri Danso | Telecommunications Engineer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Enoch Obiri Danso | Telecom & AI Engineer</title>
     <style>
-        /* --- Clean, Modern Tech Theme --- */
+        /* --- Clean, Modern Tech Theme with refined visuals --- */
         :root {
             --primary-color: #004aad;
             --accent-color: #0096FF;
-            --text-color: #333;
-            --bg-color: #f8f9fa;
+            --text-color: #1a2c3e;
+            --bg-color: #f4f7fc;
+            --card-radius: 20px;
+            --transition-smooth: all 0.25s ease-in-out;
         }
-        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
             color: var(--text-color);
             background-color: var(--bg-color);
-            line-height: 1.6;
+            line-height: 1.5;
+            scroll-behavior: smooth;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, var(--primary-color), #002a6e, var(--accent-color));
             color: white;
             text-align: center;
-            padding: 80px 20px;
+            padding: 80px 24px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 40%, rgba(0,150,255,0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* --- Profile Image --- */
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+            object-position: top;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
         }
 
         header h1 {
-            font-size: 3em;
+            font-size: 3.2em;
             margin: 0;
-            letter-spacing: 1px;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+            text-shadow: 0 4px 14px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 2;
         }
 
         header p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            font-weight: 300;
+            font-size: 1.3em;
+            margin-top: 12px;
+            font-weight: 350;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
         }
 
         .container {
-            max-width: 1000px;
-            margin: auto;
-            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
         }
 
         h2 {
             color: var(--primary-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-top: 40px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            font-size: 1.9rem;
+            font-weight: 600;
+            display: inline-block;
         }
 
-        /* --- Grid Layouts --- */
+        /* Summary paragraph */
+        .summary-text {
+            background: white;
+            padding: 28px 32px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,150,255,0.2);
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        /* Skills grid */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            gap: 18px;
+            margin-top: 24px;
         }
 
         .skill-box {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 18px 12px;
+            border-radius: 40px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            font-weight: bold;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
+            font-weight: 600;
             border-left: 4px solid var(--accent-color);
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(2px);
         }
 
+        .skill-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0,74,173,0.12);
+            border-left-width: 6px;
+        }
+
+        /* Projects grid */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             margin-top: 20px;
         }
 
         .project-card {
             background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            position: relative;
+            border-radius: var(--card-radius);
+            padding: 0;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #eef2f8;
+            height: 100%;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -12px rgba(0,74,173,0.2);
+            border-color: rgba(0,150,255,0.4);
+        }
+
+        .card-content {
+            padding: 24px 24px 16px 24px;
+            flex: 1;
         }
 
         .project-card h3 {
-            margin-top: 0;
+            margin: 0 0 6px 0;
             color: var(--primary-color);
+            font-size: 1.55rem;
+            font-weight: 700;
+            line-height: 1.3;
         }
 
         .date-stamp {
-            font-size: 0.85em;
-            color: #777;
-            font-style: italic;
-            margin-bottom: 10px;
-            display: block;
+            font-size: 0.8rem;
+            color: #5a6e7c;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 14px;
+            display: inline-block;
+            background: #eef3fc;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+
+        .tag-container {
+            margin: 12px 0 16px 0;
         }
 
         .tag {
             display: inline-block;
-            background: #e9ecef;
-            color: #555;
-            padding: 4px 10px;
-            border-radius: 15px;
-            font-size: 0.85em;
-            margin-right: 5px;
-            margin-bottom: 10px;
+            background: #eef2fa;
+            color: #004aad;
+            padding: 5px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            letter-spacing: 0.2px;
+            transition: 0.1s;
         }
 
-        /* --- Education Section --- */
+        .project-card p {
+            color: #2c3f4f;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- Project Images --- */
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid #cddfed;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        /* --- Enhanced Image Placeholder with Modern Icons --- */
+        .project-image-placeholder {
+            margin: 12px 0 0 0;
+            background: linear-gradient(145deg, #f0f4fa, #e6edf4);
+            border-radius: 16px;
+            padding: 16px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid #cddfed;
+            transition: all 0.2s;
+            flex-wrap: wrap;
+        }
+
+        .placeholder-icon {
+            font-size: 1.8rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .placeholder-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c6280;
+            background: rgba(255,255,255,0.6);
+            padding: 5px 12px;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+        }
+
+        .project-image-placeholder.ai-bg {
+            background: linear-gradient(135deg, #e9f2ff, #dfe9f5);
+            border-color: #bdd4f0;
+        }
+
+        /* Education */
         .education-box {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 28px 32px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.06);
             margin-top: 20px;
-            border-left: 5px solid var(--primary-color);
-        }
-        
-        .education-box h3 {
-            margin: 0;
-            color: var(--primary-color);
+            border-left: 6px solid var(--primary-color);
+            transition: 0.2s;
         }
 
-        /* --- Contact Section --- */
+        .education-box h3 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+        }
+
+        /* Contact */
         .contact {
             text-align: center;
-            margin-top: 60px;
-            padding: 40px;
+            margin-top: 70px;
+            padding: 44px 32px;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 36px;
+            box-shadow: 0 20px 32px -16px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,150,255,0.25);
         }
 
         .btn {
             display: inline-block;
             background: var(--primary-color);
             color: white;
-            padding: 12px 25px;
+            padding: 12px 28px;
             text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
+            border-radius: 40px;
+            font-weight: 600;
             margin-top: 20px;
-            margin-right: 10px;
-            transition: background 0.3s;
+            margin-right: 12px;
+            transition: 0.2s;
+            box-shadow: 0 4px 8px rgba(0,74,173,0.2);
         }
 
         .btn:hover {
             background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0,150,255,0.3);
         }
 
         footer {
             text-align: center;
-            padding: 20px;
+            padding: 28px 20px;
             margin-top: 40px;
-            font-size: 0.9em;
-            color: #666;
+            font-size: 0.85rem;
+            color: #5e7e9c;
+            border-top: 1px solid rgba(0,74,173,0.1);
+        }
+
+        @media (max-width: 680px) {
+            header h1 { font-size: 2.4rem; }
+            .container { padding: 24px 20px; }
+            .btn { margin: 12px 6px; display: inline-block; }
+            .project-image-placeholder { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
 
     <header>
+        <img src="engineer_profile.jpg" alt="Enoch Obiri Danso - Engineer" class="profile-img">
+        
         <h1>Enoch Obiri Danso</h1>
         <p>Telecommunication Engineering Student | IoT & AI Developer</p>
         <p>Bridging hardware, cloud telemetry, and machine learning.</p>
@@ -177,55 +346,116 @@
 
     <div class="container">
         <h2>Professional Summary</h2>
-        <p>I am an innovative Telecommunication Engineering student specializing in end-to-end IoT architectures. I have a proven ability to bridge physical hardware (microcontrollers), cloud telemetry, and machine learning (Computer Vision) to build automated, remote infrastructure monitoring systems.</p>
+        <div class="summary-text">
+            I am a Telecommunication Engineering student with a strong focus on bridging the gap between physical hardware and artificial intelligence. I specialize in building end-to-end systems, from the physical sensor level up to advanced machine learning analytics. My recent work spans developing IoT climate monitoring systems using microcontrollers, to engineering computer vision pipelines in MATLAB for automated quality assurance. Whether I am wiring edge nodes or optimizing neural networks, I am passionate about leveraging data to solve complex, real-world problems.
+        </div>
 
         <h2>Core Technical Skills</h2>
         <div class="skills-grid">
-            <div class="skill-box">MATLAB & Machine Learning (ResNet-50)</div>
-            <div class="skill-box">Hardware (ESP32 / ESP8266 / RFID)</div>
+            <div class="skill-box">MATLAB & Machine Learning</div>
+            <div class="skill-box">Computer Vision (ResNet-50)</div>
+            <div class="skill-box">Hardware (ESP32 / ESP8266 / Arduino)</div>
             <div class="skill-box">IoT & Cloud Telemetry (ThingSpeak)</div>
-            <div class="skill-box">C/C++ & Arduino Programming</div>
-            <div class="skill-box">Circuit Design</div>
+            <div class="skill-box">Circuit Design & Prototyping</div>
             <div class="skill-box">3D Modeling (AutoCAD & Blender)</div>
         </div>
 
         <h2>Engineering Projects & Experience</h2>
         <div class="projects-grid">
-            
+
             <div class="project-card">
-                <h3>Deployable AI & IoT Field Monitor</h3>
-                <span class="date-stamp">Lead Engineer | Independent Project</span>
-                <div>
-                    <span class="tag">MATLAB</span>
-                    <span class="tag">ESP32</span>
-                    <span class="tag">ResNet-50</span>
-                    <span class="tag">ThingSpeak</span>
+                <div class="card-content">
+                    <h3>Autonomous PCB Anomaly Detection AI</h3>
+                    <span class="date-stamp">March 2026 | Machine Learning Pipeline</span>
+                    <div class="tag-container">
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag">ResNet-50</span>
+                        <span class="tag">Computer Vision</span>
+                    </div>
+                    <p>Engineered an automated quality assurance pipeline for hardware manufacturing. Utilized transfer learning on a ResNet-50 neural network to classify printed circuit boards and detect microscopic defects. Overcame cloud-compute constraints by optimizing batch sizes and forcing CPU execution, ultimately achieving near 100% validation accuracy.</p>
                 </div>
-                <p>Engineered a complete remote infrastructure monitoring prototype. Programmed an autonomous ESP32 edge node for real-time network latency tracking and RFID physical access control. Developed a centralized MATLAB dashboard to aggregate live cloud telemetry and utilized a Convolutional Neural Network for real-time visual hardware inspections.</p>
+                <div class="project-image-placeholder ai-bg" style="margin: 0 20px 20px 20px;">
+                    <span class="placeholder-icon">📊🧠</span>
+                    <span class="placeholder-text">[ Training Graph · ResNet-50 accuracy ~99.8% ]</span>
+                    <span class="placeholder-icon">🔍⚙️</span>
+                </div>
             </div>
 
             <div class="project-card">
-                <h3>IoT Climate Monitoring Architecture</h3>
-                <span class="date-stamp">Feb 2026 | Independent Project</span>
-                <div>
-                    <span class="tag">ESP8266</span>
-                    <span class="tag">Sensors</span>
-                    <span class="tag">ThingSpeak</span>
+                <div class="card-content">
+                    <h3>Deployable AI & IoT Field Monitor</h3>
+                    <span class="date-stamp">Lead Engineer | Independent Project</span>
+                    <div class="tag-container">
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">ESP32</span>
+                        <span class="tag">ResNet-50</span>
+                        <span class="tag">ThingSpeak</span>
+                    </div>
+                    <p>Engineered a complete remote infrastructure monitoring prototype. Programmed an autonomous ESP32 edge node for real-time network latency tracking and RFID physical access control. Developed a centralized MATLAB dashboard to aggregate live cloud telemetry and utilized a Convolutional Neural Network for real-time visual hardware inspections.</p>
                 </div>
-                <p>Built an automated environmental tracking system using an ESP8266 microcontroller to capture live sensor data. Engineered a secure data pipeline streaming continuous telemetry directly to ThingSpeak for real-time web visualization.</p>
+                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
+                    <span class="placeholder-icon">🛰️📡</span>
+                    <span class="placeholder-text">[ ESP32 Edge Node & Dashboard ]</span>
+                    <span class="placeholder-icon">💻📈</span>
+                </div>
             </div>
 
             <div class="project-card">
-                <h3>RFID Access Control System</h3>
-                <span class="date-stamp">Feb 2026 | Independent Project</span>
-                <div>
-                    <span class="tag">Embedded Systems</span>
-                    <span class="tag">Hardware</span>
-                    <span class="tag">Access Control</span>
+                <div class="card-content">
+                    <h3>Machine Learning Trading Model</h3>
+                    <span class="date-stamp">March 2026 | Independent Project</span>
+                    <div class="tag-container">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">MATLAB</span>
+                        <span class="tag">Data Analysis</span>
+                    </div>
+                    <p>Developed and trained a predictive machine learning model designed for algorithmic trading. Processed historical market data to identify trends, analyze volatility, and evaluate predictive financial strategies.</p>
                 </div>
-                <p>Designed a digital security door system leveraging RFID technology to authenticate users and log physical access events. Integrated hardware with ThingSpeak to create an immutable, cloud-based ledger for remote security auditing.</p>
+                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
+                    <span class="placeholder-icon">📈💰</span>
+                    <span class="placeholder-text">[ Predictive signals · Market trends ]</span>
+                    <span class="placeholder-icon">🤖📉</span>
+                </div>
             </div>
 
+            <div class="project-card">
+                <div class="card-content">
+                    <h3>IoT Climate Monitoring Architecture</h3>
+                    <span class="date-stamp">Feb 2026 | Independent Project</span>
+                    <div class="tag-container">
+                        <span class="tag">ESP8266</span>
+                        <span class="tag">Sensors</span>
+                        <span class="tag">Firebase</span>
+                        <span class="tag">ThingSpeak</span>
+                    </div>
+                    <p>Built an automated environmental tracking system using an Arduino and ESP8266 microcontroller to capture live sensor data. Engineered a secure data pipeline streaming continuous telemetry directly to ThingSpeak and Firebase for real-time web visualization.</p>
+                </div>
+                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
+                    <span class="placeholder-icon">🌡️📡</span>
+                    <span class="placeholder-text">[ ESP8266 telemetry → ThingSpeak dashboard ]</span>
+                    <span class="placeholder-icon">☁️📊</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="card-content">
+                    <h3>RFID Access Control System</h3>
+                    <span class="date-stamp">Feb 2026 | Independent Project</span>
+                    <div class="tag-container">
+                        <span class="tag">Embedded Systems</span>
+                        <span class="tag">Hardware</span>
+                        <span class="tag">Access Control</span>
+                        <span class="tag">ThingSpeak</span>
+                    </div>
+                    <p>Designed a digital security door system leveraging RFID technology to authenticate users and log physical access events. Integrated hardware with ThingSpeak to create an immutable, cloud-based ledger for remote security auditing.</p>
+                </div>
+                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
+                    <span class="placeholder-icon">🔑🛡️</span>
+                    <span class="placeholder-text">[ RFID-RC522 · Cloud audit logs ]</span>
+                    <span class="placeholder-icon">📋🔐</span>
+                </div>
+            </div>
         </div>
 
         <h2>Education</h2>
@@ -233,22 +463,23 @@
             <h3>Ghana Communication Technology University</h3>
             <p><strong>Bachelor of Science in Telecommunication Engineering</strong></p>
             <p><strong>Expected Graduation:</strong> 2028</p>
-            <p><strong>Relevant Coursework:</strong> Signals and Systems, Electronics, Data Communication</p>
+            <p><strong>Relevant Coursework:</strong> Signals and Systems, Electronics, Data Communication, IoT Architecture, Digital Signal Processing</p>
+            <p style="margin-top: 10px;">🏅 Focus: Embedded AI, wireless sensor networks, and cloud telemetry integration.</p>
         </div>
 
         <div class="contact">
             <h2>Let's Connect</h2>
-            <p>Interested in discussing infrastructure solutions, telecommunications, or IoT partnerships? Feel free to reach out via email, connect with me on LinkedIn, or send a message directly on WhatsApp.</p>
-            
-            <a href="https://www.linkedin.com/in/enoch-danso-b33604346" target="_blank" class="btn">LinkedIn</a>
-            <a href="mailto:dansoenoch434@gmail.com" class="btn" style="background: #333;">Email Me</a>
-            <a href="https://wa.me/233544124574" class="btn" style="background: #25D366; color: white;">WhatsApp</a>
+            <p>Interested in discussing infrastructure solutions, telecommunications, or AI hardware partnerships? Feel free to reach out via email, connect with me on LinkedIn, or send a message directly on WhatsApp.</p>
+
+            <a href="https://www.linkedin.com/in/enoch-danso-b33604346" target="_blank" class="btn">🔗 LinkedIn</a>
+            <a href="mailto:dansoenoch434@gmail.com" class="btn" style="background: #2c3e50;">📧 Email Me</a>
+            <a href="https://wa.me/233544124574" class="btn" style="background: #1DA462; color: white;">📱 WhatsApp</a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Enoch Obiri Danso. All rights reserved.</p>
+        <p>© 2026 Enoch Obiri Danso — Telecom · IoT · Edge AI</p>
+        <p style="margin-top: 8px; font-size: 0.8rem;">Built with precision | ResNet-50 | ESP32 | ThingSpeak | MATLAB</p>
     </footer>
-
 </body>
 </html>
