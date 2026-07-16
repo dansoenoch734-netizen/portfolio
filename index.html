@@ -160,21 +160,27 @@
             box-shadow: 0 0 80px rgba(0, 212, 255, 0.3);
         }
 
-        /* Fallback if image fails to load */
-        .profile-img::after {
-            content: '👤';
-            display: flex;
+        /* --- FALLBACK: Initials if image fails to load --- */
+        .profile-fallback {
+            display: none;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
             align-items: center;
             justify-content: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--secondary);
-            border-radius: 50%;
             font-size: 4rem;
-            color: var(--text-secondary);
+            font-weight: 700;
+            color: white;
+            margin: 0 auto;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.15);
+            transition: var(--transition);
+        }
+
+        .profile-fallback:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.3);
         }
 
         header h1 {
@@ -782,7 +788,7 @@
         /* --- Responsive --- */
         @media (max-width: 768px) {
             header { min-height: 90vh; padding: 20px; }
-            .profile-img { width: 140px; height: 140px; }
+            .profile-img, .profile-fallback { width: 140px; height: 140px; font-size: 3rem; }
             .container { padding: 40px 16px; }
             .summary-text { padding: 24px 20px; }
             .education-box { padding: 24px 20px; }
@@ -813,7 +819,15 @@
         <div class="hero-badge">✦ Engineering the Future</div>
 
         <div class="profile-wrapper">
-            <img src="profile.jpeg" alt="Enoch Obiri Danso - Engineer" class="profile-img">
+            <!-- PRIMARY: Try to load the image -->
+            <img src="profile.jpeg" 
+                 alt="Enoch Obiri Danso - Engineer" 
+                 class="profile-img"
+                 id="profileImage"
+                 onerror="handleImageError()">
+            
+            <!-- FALLBACK: Initials if image fails -->
+            <div class="profile-fallback" id="fallbackInitials">EO</div>
         </div>
 
         <h1>Enoch Obiri Danso</h1>
@@ -1044,6 +1058,12 @@
     </footer>
 
     <script>
+        // --- Handle image loading failure ---
+        function handleImageError() {
+            document.getElementById('profileImage').style.display = 'none';
+            document.getElementById('fallbackInitials').style.display = 'flex';
+        }
+
         // --- Particle System ---
         (function createParticles() {
             const container = document.getElementById('particles');
