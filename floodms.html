@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flood Monitoring Dashboard</title>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-image: radial-gradient(circle at 20% 50%, #1a2744 0%, #0f172a 100%);
+    }
+    .dashboard {
+      max-width: 480px;
+      width: 100%;
+    }
+    h1 {
+      color: #38bdf8;
+      font-weight: 400;
+      letter-spacing: 1px;
+      font-size: 2.2rem;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      text-shadow: 0 0 30px rgba(56, 189, 248, 0.2);
+    }
+    h1 span {
+      background: #1e293b;
+      padding: 0 16px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #94a3b8;
+    }
+    .card {
+      background: #1e293b;
+      padding: 36px 28px;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px #334155;
+      backdrop-filter: blur(2px);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.8), 0 0 0 1px #475569;
+    }
+    .value {
+      font-size: 3rem;
+      font-weight: 700;
+      background: #0f172a;
+      padding: 20px 12px;
+      border-radius: 60px;
+      margin-bottom: 28px;
+      color: #e2e8f0;
+      letter-spacing: 1px;
+      border: 1px solid #334155;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      transition: all 0.3s ease;
+    }
+    .value span.unit {
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: #94a3b8;
+    }
+    .value .distance-number {
+      color: #38bdf8;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    .status {
+      font-size: 2rem;
+      font-weight: 700;
+      padding: 20px 10px;
+      border-radius: 60px;
+      letter-spacing: 1px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      transition: all 0.4s ease;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+    .status::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .status:hover::before {
+      opacity: 1;
+    }
+    /* status color classes */
+    .SAFE {
+      background: linear-gradient(135deg, #065f46, #047857);
+      color: #a7f3d0;
+      border-color: #10b981;
+      box-shadow: 0 0 30px #10b98133, inset 0 0 30px #10b98111;
+    }
+    .WARNING {
+      background: linear-gradient(135deg, #78350f, #b45309);
+      color: #fde68a;
+      border-color: #f59e0b;
+      box-shadow: 0 0 30px #f59e0b33, inset 0 0 30px #f59e0b11;
+    }
+    .DANGER {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #fecaca;
+      border-color: #ef4444;
+      box-shadow: 0 0 40px #ef444466, inset 0 0 40px #ef444422;
+      animation: pulse-danger 2s ease-in-out infinite;
+    }
+    @keyframes pulse-danger {
+      0%, 100% { box-shadow: 0 0 40px #ef444466, inset 0 0 40px #ef444422; }
+      50% { box-shadow: 0 0 60px #ef444488, inset 0 0 60px #ef444444; }
+    }
+    /* fallback */
+    .status:not(.SAFE):not(.WARNING):not(.DANGER) {
+      background: #334155;
+      color: #cbd5e1;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .info-item {
+      background: #194625;
+      padding: 12px 10px;
+      border-radius: 16px;
+      border: 1px solid #334155;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .info-item .label {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .info-item .value-display {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+    .footer-note {
+      margin-top: 28px;
+      color: #64748b;
+      font-size: 0.85rem;
+      background: #1e293b80;
+      padding: 10px 20px;
+      border-radius: 40px;
+      backdrop-filter: blur(4px);
+      border: 1px solid #334155;
+      display: inline-block;
+    }
+    .footer-note i {
+      font-style: normal;
+      background: #0f172a;
+      padding: 2px 14px;
+      border-radius: 40px;
+      color: #94a3b8;
+      margin: 0 4px;
+    }
+    .connection-badge {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: #475569;
+      background: #492275;
+      padding: 8px 18px;
+      border-radius: 30px;
+      display: inline-block;
+      border: 1px solid #1e293b;
+      transition: all 0.3s ease;
+    }
+    .connection-badge.active {
+      color: #4434d3;
+      border-color: #34d39955;
+      box-shadow: 0 0 20px #34d39922;
+    }
+    .connection-badge.error {
+      color: #f87171;
+      border-color: #f8717155;
+    }
+    .threshold-display {
+      margin-top: 14px;
+      font-size: 1.01rem;
+      color: #0c5253;
+      background: #0f172a;
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #1e293b;
+      display: inline-block;
+    }
+    .threshold-display span {
+      color: #889f19;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <h1>
+    🌊 Flood Monitor
+    <span>live</span>
+  </h1>
+
+  <div class="card">
+    <div class="value">
+      <span class="distance-number" id="distance">--</span> 
+      <span class="unit">cm</span>
+    </div>
+
+    <div class="status" id="status">
+      connecting…
+    </div>
+
+    <!-- Info Grid -->
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">🟢 Safe Level</span>
+        <span class="value-display">> 150 cm</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🟡 Warning Level</span>
+        <span class="value-display">80 - 150 cm</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🔴 Danger Level</span>
+        <span class="value-display">&lt; 80 cm</span>
+      </div>
+      <div class="info-item">
+        <span class="label">📡 Last Update</span>
+        <span class="value-display" id="lastUpdate">--</span>
+      </div>
+    </div>
+
+    <!-- Connection Badge -->
+    <div class="connection-badge" id="connectionBadge">⏳ waiting for data</div>
+  </div>
+
+  <div class="footer-note">
+    <i>📡</i> realtime · <i>⚡</i> firebase · <i>🔌</i> ESP8266
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ------------------------------------------------------------------
+    // 🔥  FIREBASE CONFIGURATION
+    // ------------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyBpZ-9wumnztvMma2VeHpHIGG16PCbMWsk",
+      authDomain: "flood-monitoring-system-7ff4c.firebaseapp.com",
+      databaseURL: "https://flood-monitoring-system-7ff4c-default-rtdb.firebaseio.com",
+      projectId: "flood-monitoring-system-7ff4c",
+      storageBucket: "flood-monitoring-system-7ff4c.firebasestorage.app",
+      messagingSenderId: "552137404698",
+      appId: "1:552137404698:web:7c8cbd167f1dadfc447ca3",
+      measurementId: "G-9LSJRQD9BW"
+    };
+
+    // Initialize Firebase
+    let db;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+      console.log("✅ Firebase initialized successfully");
+    } catch (err) {
+      console.warn("⚠️ Firebase init error:", err.message);
+      document.getElementById("status").innerText = "⚠️ Config error";
+      document.getElementById("status").className = "status";
+      document.getElementById("connectionBadge").innerText = "❌ init failed";
+      document.getElementById("connectionBadge").className = "connection-badge error";
+      return;
+    }
+
+    // DOM refs
+    const distanceEl = document.getElementById("distance");
+    const statusEl = document.getElementById("status");
+    const badgeEl = document.getElementById("connectionBadge");
+    const lastUpdateEl = document.getElementById("lastUpdate");
+
+    // Helper to update UI from data object
+    function updateUI(data) {
+      if (!data) {
+        distanceEl.innerText = "--";
+        statusEl.innerText = "No data";
+        statusEl.className = "status";
+        badgeEl.innerText = "⏳ waiting for snapshot";
+        badgeEl.className = "connection-badge";
+        lastUpdateEl.innerText = "--";
+        return;
+      }
+
+      // distance
+      const dist = data.distance;
+      if (dist !== undefined && dist !== null && !isNaN(dist)) {
+        const distNum = Number(dist);
+        distanceEl.innerText = distNum.toFixed(1);
+        // Color the distance based on value
+        if (distNum > 150) {
+          distanceEl.style.color = '#34d399';
+        } else if (distNum > 80) {
+          distanceEl.style.color = '#fbbf24';
+        } else {
+          distanceEl.style.color = '#f87171';
+        }
+      } else {
+        distanceEl.innerText = "--";
+        distanceEl.style.color = '#38bdf8';
+      }
+
+      // status
+      const rawStatus = data.status;
+      let statusText = rawStatus ? String(rawStatus).toUpperCase() : "UNKNOWN";
+      const validStatuses = ["SAFE", "WARNING", "DANGER"];
+      let normalizedStatus = statusText;
+      if (!validStatuses.includes(statusText)) {
+        normalizedStatus = statusText;
+      }
+      statusEl.innerText = normalizedStatus;
+
+      // reset all status classes, then add the valid one if applicable
+      statusEl.className = "status";
+      if (validStatuses.includes(normalizedStatus)) {
+        statusEl.classList.add(normalizedStatus);
+      } else {
+        statusEl.classList.add("status");
+      }
+
+      // update badge with last update info
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      });
+      lastUpdateEl.innerText = timeStr;
+      badgeEl.innerText = `🟢 live · ${timeStr}`;
+      badgeEl.className = "connection-badge active";
+    }
+
+    // 🔴 Listen for real-time updates from Firebase
+    const floodRef = db.ref("/flood");
+
+    // Attach listener
+    floodRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      console.log("📡 Firebase update:", data);
+      updateUI(data);
+    }, (error) => {
+      console.error("❌ Firebase listener error:", error);
+      statusEl.innerText = "⚠️ Error";
+      statusEl.className = "status";
+      badgeEl.innerText = "❌ connection error";
+      badgeEl.className = "connection-badge error";
+    });
+
+    // Handle connection status
+    const connectedRef = db.ref(".info/connected");
+    connectedRef.on("value", (snap) => {
+      const connected = snap.val();
+      if (connected === true) {
+        badgeEl.innerText = "🟢 connected";
+        badgeEl.className = "connection-badge active";
+      } else {
+        badgeEl.innerText = "🔴 disconnected";
+        badgeEl.className = "connection-badge error";
+      }
+    });
+
+    // Fallback: if no data arrives within 5 seconds, show a hint
+    let dataReceived = false;
+    const timeoutId = setTimeout(() => {
+      if (!dataReceived) {
+        const currentText = statusEl.innerText;
+        if (currentText === "connecting…" || currentText === "No data" || currentText === "--") {
+          statusEl.innerText = "⏳ waiting…";
+          statusEl.className = "status";
+          badgeEl.innerText = "⏳ no data yet";
+          badgeEl.className = "connection-badge";
+        }
+      }
+    }, 5000);
+
+    // Override updateUI to mark data received
+    const originalUpdate = updateUI;
+    updateUI = function(data) {
+      if (data && (data.distance !== undefined || data.status !== undefined)) {
+        dataReceived = true;
+        clearTimeout(timeoutId);
+      }
+      originalUpdate(data);
+    };
+
+    // Re-attach listener with the updated updateUI
+    floodRef.off("value");
+    floodRef.on("value", (snapshot) => {
+      const data = snapshot.val();
+      console.log("📡 Firebase update (refreshed):", data);
+      updateUI(data);
+    }, (error) => {
+      console.error("❌ Firebase listener error:", error);
+      statusEl.innerText = "⚠️ Error";
+      statusEl.className = "status";
+      badgeEl.innerText = "❌ connection error";
+      badgeEl.className = "connection-badge error";
+    });
+
+    console.log("🚀 Flood Monitoring Dashboard ready!");
+    console.log("📊 Listening to: /flood in Firebase");
+    console.log("📏 Safe: >150cm | Warning: 80-150cm | Danger: <80cm");
+
+  })();
+</script>
+
+</body>
+</html>

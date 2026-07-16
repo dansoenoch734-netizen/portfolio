@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Enoch Obiri Danso | Telecom & AI Engineer</title>
     <style>
-        /* --- Clean, Modern Tech Theme with refined visuals --- */
+        /* --- Premium Dark Theme with Neon Accents --- */
         :root {
-            --primary-color: #004aad;
-            --accent-color: #0096FF;
-            --text-color: #1a2c3e;
-            --bg-color: #f4f5fc;
-            --card-radius: 20px;
-            --transition-smooth: all 0.25s ease-in-out;
+            --primary: #0a0e1a;
+            --secondary: #121828;
+            --accent-1: #00d4ff;
+            --accent-2: #7c3aed;
+            --accent-3: #06ffa5;
+            --text-primary: #e8edf5;
+            --text-secondary: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --card-radius: 24px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -21,466 +26,1074 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text-color);
-            background-color: var(--bg-color);
-            line-height: 1.5;
+        html {
             scroll-behavior: smooth;
         }
 
-        header {
-            background: linear-gradient(135deg, var(--primary-color), #002a6e, var(--accent-color));
-            color: white;
-            text-align: center;
-            padding: 80px 24px;
-            position: relative;
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Animated Background --- */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(6, 255, 165, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            animation: noise 0.5s steps(2) infinite;
+        }
+
+        @keyframes noise {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-5%, -5%); }
+        }
+
+        /* --- Floating Particles --- */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
             overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* --- Header / Hero --- */
+        header {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 24px;
+            overflow: hidden;
         }
 
-        header::after {
-            content: '';
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--accent-1);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            margin-bottom: 28px;
+            animation: fadeInDown 0.8s ease-out 0.2s both;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            border: 3px solid transparent;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            transition: var(--transition);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.15);
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Fallback if image fails to load */
+        .profile-img::after {
+            content: '👤';
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 20% 40%, rgba(0,150,255,0.2) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        /* --- Profile Image --- */
-        .profile-img {
-            width: 160px;
-            height: 160px;
+            background: var(--secondary);
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            object-fit: cover;
-            object-position: top;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s ease;
-        }
-
-        .profile-img:hover {
-            transform: scale(1.05);
+            font-size: 4rem;
+            color: var(--text-secondary);
         }
 
         header h1 {
-            font-size: 3.2em;
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-1) 50%, var(--accent-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin: 0;
-            letter-spacing: -0.5px;
-            font-weight: 700;
-            text-shadow: 0 4px 14px rgba(0,0,0,0.15);
-            position: relative;
-            z-index: 2;
+            animation: fadeInDown 0.8s ease-out 0.4s both;
+            line-height: 1.1;
         }
 
-        header p {
-            font-size: 1.3em;
-            margin-top: 12px;
-            font-weight: 350;
-            opacity: 0.95;
-            position: relative;
-            z-index: 2;
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-top: 16px;
+            font-weight: 400;
+            animation: fadeInDown 0.8s ease-out 0.6s both;
+            max-width: 700px;
         }
 
+        .hero-subtitle strong {
+            color: var(--accent-1);
+            -webkit-text-fill-color: var(--accent-1);
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 28px;
+            animation: fadeInDown 0.8s ease-out 0.8s both;
+        }
+
+        .hero-tag {
+            padding: 8px 20px;
+            border-radius: 100px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .hero-tag:hover {
+            border-color: var(--accent-1);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .hero-cta {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            animation: fadeInDown 0.8s ease-out 1s both;
+        }
+
+        .btn-primary {
+            padding: 14px 36px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 30px rgba(0, 212, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 50px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 14px 36px;
+            border-radius: 100px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(6, 255, 165, 0.1);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5;
+        }
+
+        .scroll-indicator .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 2px solid var(--text-secondary);
+            border-bottom: 2px solid var(--text-secondary);
+            transform: rotate(45deg);
+            opacity: 0.5;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Main Container --- */
         .container {
+            position: relative;
+            z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 60px 24px;
         }
 
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 8px;
-            margin-top: 48px;
-            margin-bottom: 24px;
-            font-size: 1.9rem;
-            font-weight: 600;
-            display: inline-block;
+        /* --- Section Headers --- */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
         }
 
-        /* Summary paragraph */
+        .section-header .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--accent-1), transparent);
+            opacity: 0.3;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header .number {
+            color: var(--accent-1);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        /* --- Summary --- */
         .summary-text {
-            background: white;
-            padding: 28px 32px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: var(--card-radius);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,150,255,0.2);
-            font-size: 1.1rem;
+            padding: 32px 40px;
+            backdrop-filter: blur(20px);
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-text::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-1), var(--accent-2));
+            border-radius: 4px;
+        }
+
+        .summary-text strong {
+            color: var(--text-primary);
+        }
+
+        /* --- Skills Grid --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
             margin-top: 8px;
         }
 
-        /* Skills grid */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 18px;
-            margin-top: 24px;
+        .skill-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            cursor: default;
         }
 
-        .skill-box {
-            background: white;
-            padding: 18px 12px;
-            border-radius: 40px;
-            text-align: center;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.04);
-            font-weight: 600;
-            border-left: 4px solid var(--accent-color);
-            transition: var(--transition-smooth);
-            backdrop-filter: blur(2px);
+        .skill-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+            transform: scaleX(0);
+            transition: var(--transition);
         }
 
         .skill-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(0,74,173,0.12);
-            border-left-width: 6px;
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.05);
+            color: var(--text-primary);
         }
 
-        /* Projects grid */
+        .skill-box:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-box .icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* --- Projects Grid --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
-            margin-top: 20px;
+            margin-top: 8px;
         }
 
         .project-card {
-            background: white;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: var(--card-radius);
             padding: 0;
-            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.08);
-            transition: var(--transition-smooth);
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #eef2f8;
             height: 100%;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border-radius: var(--card-radius);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), transparent, rgba(124, 58, 237, 0.1));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
         }
 
         .project-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 36px -12px rgba(0,74,173,0.2);
-            border-color: rgba(0,150,255,0.4);
+            transform: translateY(-8px);
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
         }
 
         .card-content {
-            padding: 24px 24px 16px 24px;
+            padding: 28px 28px 20px;
             flex: 1;
         }
 
         .project-card h3 {
-            margin: 0 0 6px 0;
-            color: var(--primary-color);
-            font-size: 1.55rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            line-height: 1.3;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
+            letter-spacing: -0.3px;
         }
 
         .date-stamp {
-            font-size: 0.8rem;
-            color: #5a6e7c;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            margin-bottom: 14px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
             display: inline-block;
-            background: #eef3fc;
-            padding: 4px 12px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 14px;
+            border-radius: 100px;
+            margin-bottom: 14px;
+            border: 1px solid var(--glass-border);
+            letter-spacing: 0.5px;
         }
 
         .tag-container {
             margin: 12px 0 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .tag {
             display: inline-block;
-            background: #eef2fa;
-            color: #004aad;
-            padding: 5px 12px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 6px;
-            margin-bottom: 6px;
-            letter-spacing: 0.2px;
-            transition: 0.1s;
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--accent-1);
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            letter-spacing: 0.3px;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: rgba(0, 212, 255, 0.3);
         }
 
         .project-card p {
-            color: #2c3f4f;
-            margin-bottom: 10px;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 8px;
         }
 
-        /* --- Project Images --- */
-        .project-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 1px solid #cddfed;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-        }
-
-        /* --- Enhanced Image Placeholder with Modern Icons --- */
         .project-image-placeholder {
-            margin: 12px 0 0 0;
-            background: linear-gradient(145deg, #f0f4fa, #e6edf4);
-            border-radius: 16px;
-            padding: 16px 12px;
+            margin: 8px 20px 20px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            border: 1px solid #cddfed;
-            transition: all 0.2s;
+            border: 1px solid var(--glass-border);
             flex-wrap: wrap;
+            transition: var(--transition);
+        }
+
+        .project-image-placeholder:hover {
+            border-color: rgba(0, 212, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .placeholder-icon {
-            font-size: 1.8rem;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            font-size: 1.6rem;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
         }
 
         .placeholder-text {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 500;
-            color: #2c6280;
-            background: rgba(255,255,255,0.6);
-            padding: 5px 12px;
-            border-radius: 40px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--glass-border);
             letter-spacing: 0.3px;
         }
 
         .project-image-placeholder.ai-bg {
-            background: linear-gradient(135deg, #e9f2ff, #dfe9f5);
-            border-color: #bdd4f0;
+            background: rgba(124, 58, 237, 0.05);
+            border-color: rgba(124, 58, 237, 0.1);
         }
 
-        /* Education */
+        /* --- Education --- */
         .education-box {
-            background: white;
-            padding: 28px 32px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: var(--card-radius);
-            box-shadow: 0 12px 24px -12px rgba(0,0,0,0.06);
-            margin-top: 20px;
-            border-left: 6px solid var(--primary-color);
-            transition: 0.2s;
+            padding: 32px 40px;
+            backdrop-filter: blur(20px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .education-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
+            border-radius: 4px;
         }
 
         .education-box h3 {
-            margin: 0 0 8px 0;
-            color: var(--primary-color);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin: 0 0 4px 0;
         }
 
-        /* Contact */
+        .education-box p {
+            color: var(--text-secondary);
+            margin: 4px 0;
+        }
+
+        .education-box strong {
+            color: var(--text-primary);
+        }
+
+        .edu-badge {
+            display: inline-block;
+            background: rgba(6, 255, 165, 0.08);
+            color: var(--accent-3);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(6, 255, 165, 0.1);
+            margin-top: 8px;
+        }
+
+        /* --- Contact --- */
         .contact {
             text-align: center;
-            margin-top: 70px;
-            padding: 44px 32px;
-            background: white;
-            border-radius: 36px;
-            box-shadow: 0 20px 32px -16px rgba(0,0,0,0.08);
-            border: 1px solid rgba(0,150,255,0.25);
-        }
-
-        .btn {
-            display: inline-block;
-            background: var(--primary-color);
-            color: white;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 40px;
-            font-weight: 600;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 48px 40px;
+            backdrop-filter: blur(20px);
             margin-top: 20px;
-            margin-right: 12px;
-            transition: 0.2s;
-            box-shadow: 0 4px 8px rgba(0,74,173,0.2);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn:hover {
-            background: var(--accent-color);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px rgba(0,150,255,0.3);
+        .contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.03), transparent 70%);
+            animation: rotateGlow 20s linear infinite;
         }
 
-        footer {
-            text-align: center;
-            padding: 28px 20px;
-            margin-top: 40px;
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .contact h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 12px auto 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            margin-top: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-contact {
+            padding: 12px 28px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
             font-size: 0.85rem;
-            color: #5e7e9c;
-            border-top: 1px solid rgba(0,74,173,0.1);
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            backdrop-filter: blur(10px);
         }
 
-        @media (max-width: 680px) {
-            header h1 { font-size: 2.4rem; }
-            .container { padding: 24px 20px; }
-            .btn { margin: 12px 6px; display: inline-block; }
+        .btn-contact:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-1);
+            box-shadow: 0 8px 40px rgba(0, 212, 255, 0.1);
+        }
+
+        .btn-contact.linkedin:hover {
+            border-color: #0a66c2;
+            box-shadow: 0 8px 40px rgba(10, 102, 194, 0.2);
+        }
+
+        .btn-contact.email:hover {
+            border-color: #ea4335;
+            box-shadow: 0 8px 40px rgba(234, 67, 53, 0.2);
+        }
+
+        .btn-contact.whatsapp:hover {
+            border-color: #25D366;
+            box-shadow: 0 8px 40px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-contact.instagram:hover {
+            border-color: #E4405F;
+            box-shadow: 0 8px 40px rgba(228, 64, 95, 0.2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        footer .footer-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        footer .footer-tags span {
+            background: var(--glass-bg);
+            padding: 4px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-2);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            header { min-height: 90vh; padding: 20px; }
+            .profile-img { width: 140px; height: 140px; }
+            .container { padding: 40px 16px; }
+            .summary-text { padding: 24px 20px; }
+            .education-box { padding: 24px 20px; }
+            .contact { padding: 32px 20px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: repeat(2, 1fr); }
+            .section-header h2 { font-size: 1.4rem; }
+            .hero-cta { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 280px; text-align: center; }
+            .contact-buttons { flex-direction: column; align-items: center; }
+            .btn-contact { width: 100%; max-width: 280px; justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .skills-grid { grid-template-columns: 1fr; }
             .project-image-placeholder { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Background Effects -->
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Header / Hero -->
     <header>
-        <img src="engineer_profile.jpg" alt="Enoch Obiri Danso - Engineer" class="profile-img">
-        
+        <div class="hero-badge">✦ Engineering the Future</div>
+
+        <div class="profile-wrapper">
+            <img src="your_profile_image.jpg" alt="Enoch Obiri Danso - Engineer" class="profile-img">
+        </div>
+
         <h1>Enoch Obiri Danso</h1>
-        <p>Telecommunication Engineering Trainee | IoT & AI Developer | ML Engineer</p>
-        <p>Bridging hardware, cloud telemetry, and machine learning.</p>
+        <p class="hero-subtitle">
+            <strong>Telecom · IoT · AI</strong> — Building intelligent systems from <br>silicon to cloud.
+        </p>
+
+        <div class="hero-tags">
+            <span class="hero-tag">⚡ Embedded AI</span>
+            <span class="hero-tag">📡 5G & IoT</span>
+            <span class="hero-tag">🧠 ML & Computer Vision</span>
+            <span class="hero-tag">🔧 Hardware Prototyping</span>
+        </div>
+
+        <div class="hero-cta">
+            <a href="#projects" class="btn-primary">🚀 View My Work</a>
+            <a href="#contact" class="btn-secondary">💬 Let's Connect</a>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="arrow"></div>
+        </div>
     </header>
 
+    <!-- Main Content -->
     <div class="container">
-        <h2>Professional Summary</h2>
-        <div class="summary-text">
-            I am a Telecommunication Engineering trainee with a strong focus on bridging the gap between physical hardware and artificial intelligence. I specialize in building end-to-end systems, from the physical sensor level up to advanced machine learning analytics. My recent work spans developing IoT climate monitoring systems using microcontrollers, to engineering computer vision pipelines in MATLAB for automated quality assurance. Whether I am wiring edge nodes or optimizing neural networks, I am passionate about leveraging data to solve complex, real-world problems.
-        </div>
 
-        <h2>Core Technical Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-box">MATLAB & Machine Learning</div>
-            <div class="skill-box">Computer Vision (ResNet-50)</div>
-            <div class="skill-box">Hardware (ESP32 / ESP8266 / Arduino)</div>
-            <div class="skill-box">IoT & Cloud Telemetry (ThingSpeak)</div>
-            <div class="skill-box">Circuit Design & Prototyping</div>
-            <div class="skill-box">3D Modeling (AutoCAD & Blender)</div>
-        </div>
+        <!-- Professional Summary -->
+        <section>
+            <div class="section-header">
+                <span class="number">01</span>
+                <h2>About Me</h2>
+                <div class="line"></div>
+            </div>
+            <div class="summary-text">
+                <strong>I am a Telecommunication Engineering trainee</strong> with a deep passion for bridging the gap between physical hardware and artificial intelligence. I architect end-to-end systems — from sensor-level electronics to advanced machine learning analytics. My work spans IoT climate monitoring, computer vision pipelines in MATLAB, and practical residential electrical systems. Whether I'm wiring edge nodes or optimizing neural networks, I leverage data and hardware to solve complex, real-world problems with precision and creativity.
+            </div>
+        </section>
 
-        <h2>Engineering Projects & Experience</h2>
-        <div class="projects-grid">
+        <!-- Core Technical Skills -->
+        <section style="margin-top: 60px;">
+            <div class="section-header">
+                <span class="number">02</span>
+                <h2>Core Competencies</h2>
+                <div class="line"></div>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-box"><span class="icon">🧠</span>MATLAB & ML</div>
+                <div class="skill-box"><span class="icon">👁️</span>Computer Vision (ResNet-50)</div>
+                <div class="skill-box"><span class="icon">🔌</span>ESP32 / ESP8266 / Arduino</div>
+                <div class="skill-box"><span class="icon">☁️</span>IoT & ThingSpeak</div>
+                <div class="skill-box"><span class="icon">⚡</span>Circuit Design & Wiring</div>
+                <div class="skill-box"><span class="icon">🎨</span>AutoCAD & Blender</div>
+            </div>
+        </section>
 
-            <div class="project-card">
-                <div class="card-content">
-                    <h3>Autonomous PCB Anomaly Detection AI</h3>
-                    <span class="date-stamp">March 2026 | Machine Learning Pipeline</span>
-                    <div class="tag-container">
-                        <span class="tag">MATLAB</span>
-                        <span class="tag">Deep Learning</span>
-                        <span class="tag">ResNet-50</span>
-                        <span class="tag">Computer Vision</span>
+        <!-- Engineering Projects -->
+        <section style="margin-top: 60px;" id="projects">
+            <div class="section-header">
+                <span class="number">03</span>
+                <h2>Featured Projects</h2>
+                <div class="line"></div>
+            </div>
+            <div class="projects-grid">
+
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>TechMon: Electronics & Prototyping</h3>
+                        <span class="date-stamp">May 2026 – Present</span>
+                        <div class="tag-container">
+                            <span class="tag">Electronics Repair</span>
+                            <span class="tag">Circuit Prototyping</span>
+                            <span class="tag">Academic Projects</span>
+                        </div>
+                        <p>Founded and operate a campus-based technical service business providing custom circuit prototyping, electronics repair, and comprehensive academic project assistance.</p>
                     </div>
-                    <p>Engineered an automated quality assurance pipeline for hardware manufacturing. Utilized transfer learning on a ResNet-50 neural network to classify printed circuit boards and detect microscopic defects. Overcame cloud-compute constraints by optimizing batch sizes and forcing CPU execution, ultimately achieving near 100% validation accuracy.</p>
+                    <div class="project-image-placeholder">
+                        <span class="placeholder-icon">🔌</span>
+                        <span class="placeholder-text">TechMon Services</span>
+                        <span class="placeholder-icon">⚡</span>
+                    </div>
                 </div>
-                <div class="project-image-placeholder ai-bg" style="margin: 0 20px 20px 20px;">
-                    <span class="placeholder-icon">📊🧠</span>
-                    <span class="placeholder-text">[ Training Graph · ResNet-50 accuracy ~99.8% ]</span>
-                    <span class="placeholder-icon">🔍⚙️</span>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>PCB Anomaly Detection AI</h3>
+                        <span class="date-stamp">March 2026</span>
+                        <div class="tag-container">
+                            <span class="tag">MATLAB</span>
+                            <span class="tag">ResNet-50</span>
+                            <span class="tag">Computer Vision</span>
+                        </div>
+                        <p>Engineered an automated quality assurance pipeline using transfer learning on ResNet-50 to classify PCBs and detect microscopic defects. Achieved near 100% validation accuracy.</p>
+                    </div>
+                    <div class="project-image-placeholder ai-bg">
+                        <span class="placeholder-icon">📊</span>
+                        <span class="placeholder-text">ResNet-50 · 99.8% Accuracy</span>
+                        <span class="placeholder-icon">🔍</span>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>AI & IoT Field Monitor</h3>
+                        <span class="date-stamp">Lead Engineer</span>
+                        <div class="tag-container">
+                            <span class="tag">ESP32</span>
+                            <span class="tag">MATLAB</span>
+                            <span class="tag">ThingSpeak</span>
+                        </div>
+                        <p>Built a remote infrastructure monitoring prototype with ESP32 edge node for latency tracking and RFID access control. Aggregated cloud telemetry with MATLAB and CNN-based visual inspections.</p>
+                    </div>
+                    <div class="project-image-placeholder">
+                        <span class="placeholder-icon">🛰️</span>
+                        <span class="placeholder-text">ESP32 Edge Node</span>
+                        <span class="placeholder-icon">📈</span>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>IoT Climate Monitoring</h3>
+                        <span class="date-stamp">February 2026</span>
+                        <div class="tag-container">
+                            <span class="tag">ESP8266</span>
+                            <span class="tag">Sensors</span>
+                            <span class="tag">ThingSpeak</span>
+                        </div>
+                        <p>Developed an automated environmental tracking system using Arduino and ESP8266, streaming live sensor data to ThingSpeak for real-time remote visualization and analysis.</p>
+                    </div>
+                    <div class="project-image-placeholder">
+                        <span class="placeholder-icon">🌡️</span>
+                        <span class="placeholder-text">ESP8266 → ThingSpeak</span>
+                        <span class="placeholder-icon">☁️</span>
+                    </div>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>RFID Access Control</h3>
+                        <span class="date-stamp">February 2026</span>
+                        <div class="tag-container">
+                            <span class="tag">Embedded Systems</span>
+                            <span class="tag">Hardware</span>
+                            <span class="tag">ThingSpeak</span>
+                        </div>
+                        <p>Designed a digital security system using RFID for user authentication and access logging. Integrated with ThingSpeak for an immutable, cloud-based security audit trail.</p>
+                    </div>
+                    <div class="project-image-placeholder">
+                        <span class="placeholder-icon">🔑</span>
+                        <span class="placeholder-text">RFID-RC522 · Cloud Audit</span>
+                        <span class="placeholder-icon">📋</span>
+                    </div>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="project-card">
+                    <div class="card-content">
+                        <h3>ML Trading Model</h3>
+                        <span class="date-stamp">March 2026</span>
+                        <div class="tag-container">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">MATLAB</span>
+                            <span class="tag">Data Analysis</span>
+                        </div>
+                        <p>Developed a predictive machine learning model for algorithmic trading, processing historical market data to identify trends, analyze volatility, and evaluate financial strategies.</p>
+                    </div>
+                    <div class="project-image-placeholder">
+                        <span class="placeholder-icon">📈</span>
+                        <span class="placeholder-text">Predictive Signals</span>
+                        <span class="placeholder-icon">💰</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Education -->
+        <section style="margin-top: 60px;">
+            <div class="section-header">
+                <span class="number">04</span>
+                <h2>Education</h2>
+                <div class="line"></div>
+            </div>
+            <div class="education-box">
+                <h3>Ghana Communication Technology University</h3>
+                <p><strong>Bachelor of Science in Telecommunication Engineering</strong></p>
+                <p style="color: var(--text-secondary);">Expected Graduation: 2028</p>
+                <p style="margin-top: 12px; color: var(--text-secondary);">
+                    <strong style="color: var(--text-primary);">Relevant Coursework:</strong> Computer Architecture, Signals and Systems, Electronics, Data Communication, IoT Architecture, Digital Signal Processing
+                </p>
+                <span class="edu-badge">🎯 Focus: Embedded AI · Wireless Sensor Networks · Cloud Telemetry</span>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section style="margin-top: 60px;" id="contact">
+            <div class="contact">
+                <h2>Let's Build Something</h2>
+                <p>Interested in infrastructure solutions, telecommunications, or AI hardware partnerships? Let's connect and create impact.</p>
+                <div class="contact-buttons">
+                    <a href="https://www.linkedin.com/in/enoch-danso-b33604346" target="_blank" class="btn-contact linkedin">🔗 LinkedIn</a>
+                    <a href="mailto:dansoenoch434@gmail.com" class="btn-contact email">📧 Email</a>
+                    <a href="https://wa.me/233544124574" class="btn-contact whatsapp">📱 WhatsApp</a>
+                    <a href="https://www.instagram.com/monetrg74?igsh=NG03NjlkNnBydnJh" class="btn-contact instagram">📸 Instagram</a>
                 </div>
             </div>
+        </section>
 
-            <div class="project-card">
-                <div class="card-content">
-                    <h3>Deployable AI & IoT Field Monitor</h3>
-                    <span class="date-stamp">Lead Engineer | Independent Project</span>
-                    <div class="tag-container">
-                        <span class="tag">MATLAB</span>
-                        <span class="tag">ESP32</span>
-                        <span class="tag">ResNet-50</span>
-                        <span class="tag">ThingSpeak</span>
-                    </div>
-                    <p>Engineered a complete remote infrastructure monitoring prototype. Programmed an autonomous ESP32 edge node for real-time network latency tracking and RFID physical access control. Developed a centralized MATLAB dashboard to aggregate live cloud telemetry and utilized a Convolutional Neural Network for real-time visual hardware inspections.</p>
-                </div>
-                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
-                    <span class="placeholder-icon">🛰️📡</span>
-                    <span class="placeholder-text">[ ESP32 Edge Node & Dashboard ]</span>
-                    <span class="placeholder-icon">💻📈</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-content">
-                    <h3>Machine Learning Trading Model</h3>
-                    <span class="date-stamp">March 2026 | Independent Project</span>
-                    <div class="tag-container">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">MATLAB</span>
-                        <span class="tag">Data Analysis</span>
-                    </div>
-                    <p>Developed and trained a predictive machine learning model designed for algorithmic trading. Processed historical market data to identify trends, analyze volatility, and evaluate predictive financial strategies.</p>
-                </div>
-                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
-                    <span class="placeholder-icon">📈💰</span>
-                    <span class="placeholder-text">[ Predictive signals · Market trends ]</span>
-                    <span class="placeholder-icon">🤖📉</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-content">
-                    <h3>IoT Climate Monitoring Architecture</h3>
-                    <span class="date-stamp">Feb 2026 | Independent Project</span>
-                    <div class="tag-container">
-                        <span class="tag">ESP8266</span>
-                        <span class="tag">Sensors</span>
-                        <span class="tag">Firebase</span>
-                        <span class="tag">ThingSpeak</span>
-                    </div>
-                    <p>Built an automated environmental tracking system using an Arduino and ESP8266 microcontroller to capture live sensor data. Engineered a secure data pipeline streaming continuous telemetry directly to ThingSpeak and Firebase for real-time web visualization.</p>
-                </div>
-                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
-                    <span class="placeholder-icon">🌡️📡</span>
-                    <span class="placeholder-text">[ ESP8266 telemetry → ThingSpeak dashboard ]</span>
-                    <span class="placeholder-icon">☁️📊</span>
-                </div>
-            </div>
-
-            <div class="project-card">
-                <div class="card-content">
-                    <h3>RFID Access Control System</h3>
-                    <span class="date-stamp">Feb 2026 | Independent Project</span>
-                    <div class="tag-container">
-                        <span class="tag">Embedded Systems</span>
-                        <span class="tag">Hardware</span>
-                        <span class="tag">Access Control</span>
-                        <span class="tag">ThingSpeak</span>
-                    </div>
-                    <p>Designed a digital security door system leveraging RFID technology to authenticate users and log physical access events. Integrated hardware with ThingSpeak to create an immutable, cloud-based ledger for remote security auditing.</p>
-                </div>
-                <div class="project-image-placeholder" style="margin: 0 20px 20px 20px;">
-                    <span class="placeholder-icon">🔑🛡️</span>
-                    <span class="placeholder-text">[ RFID-RC522 · Cloud audit logs ]</span>
-                    <span class="placeholder-icon">📋🔐</span>
-                </div>
-            </div>
-        </div>
-
-        <h2>Education</h2>
-        <div class="education-box">
-            <h3>Ghana Communication Technology University</h3>
-            <p><strong>Bachelor of Science in Telecommunication Engineering</strong></p>
-            <p><strong>Expected Graduation:</strong> 2028</p>
-            <p><strong>Relevant Coursework:</strong> Signals and Systems, Electronics, Data Communication, IoT Architecture, Digital Signal Processing</p>
-            <p style="margin-top: 10px;">🏅 Focus: Embedded AI, wireless sensor networks, and cloud telemetry integration.</p>
-        </div>
-
-        <div class="contact">
-            <h2>Let's Connect</h2>
-            <p>Interested in discussing infrastructure solutions, telecommunications, or AI hardware partnerships? Feel free to reach out via email, connect with me on LinkedIn, or send a message directly on WhatsApp.</p>
-
-            <a href="https://www.linkedin.com/in/enoch-danso-b33604346" target="_blank" class="btn">🔗 LinkedIn</a>
-            <a href="mailto:dansoenoch434@gmail.com" class="btn" style="background: #2c3e50;">📧 Email Me</a>
-            <a href="https://wa.me/233544124574" class="btn" style="background: #1DA462; color: white;">📱 WhatsApp</a>
-            <a href="https://www.instagram.com/monetrg74?igsh=NG03NjlkNnBydnJh" class="btn" style="background: #2c3e50; color:rgb(250, 215, 241)"> Instagram</a>
-        </div>
     </div>
 
+    <!-- Footer -->
     <footer>
-        <p>© 2026 Enoch Obiri Danso — Telecom · IoT · Edge AI . Embedded Systems . ML & AI</p>
-        <p style="margin-top: 8px; font-size: 0.8rem;">Built with precision | ResNet-50 | ESP32 | ThingSpeak | MATLAB</p>
+        <p style="font-weight: 500; color: var(--text-primary);">© 2026 Enoch Obiri Danso</p>
+        <p style="font-size: 0.75rem;">Telecom · IoT · Edge AI · Embedded Systems · ML &amp; AI</p>
+        <div class="footer-tags">
+            <span>⚡ ResNet-50</span>
+            <span>📡 ESP32</span>
+            <span>☁️ ThingSpeak</span>
+            <span>🧠 MATLAB</span>
+        </div>
     </footer>
+
+    <script>
+        // --- Particle System ---
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            const count = 60;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 3 + 1) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 20) + 's';
+                particle.style.background = ['#00d4ff', '#7c3aed', '#06ffa5', '#ffffff'][Math.floor(Math.random() * 4)];
+                container.appendChild(particle);
+            }
+        })();
+
+        // --- Intersection Observer for cards ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.project-card, .skill-box, .summary-text, .education-box, .contact').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // --- Smooth anchor scroll ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
